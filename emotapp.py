@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 from paz.applications import HaarCascadeFrontalFace, MiniXceptionFER
 import paz.processors as pr
+import random
 import uvicorn
 import os
 
@@ -36,11 +37,11 @@ class EmotionDetector(pr.Processor):
 detector = EmotionDetector()
 
 stored_images = {
-    "vFG56.png": "happy",
-    "vFG112.png": "neutral",
-    "XMY-074.png": "surprise",
-    "vFG137.png": "sad",
-    "XMY-136.png": "angry"
+    "happy": ["vFG56.png", "happy2.png"],
+    "neutral": ["vFG112.png", "neutral2", "neutral3"],
+    "surprise": ["XMY-074.png", "surprise2"],
+    "sad": ["vFG137.png", "vFG756.png"],
+    "angry": ["XMY-136.png", "XMY-014.png"]
 }
 
 @app.post("/")
@@ -58,11 +59,9 @@ async def detect_emotion(image: UploadFile = File(...)):
     prediction_bgr = cv2.cvtColor(prediction, cv2.COLOR_RGB2BGR)
     cv2.imwrite("output_user.png", prediction_bgr)
 
-    matching_image = None
-    for image_path, emotion in stored_images.items():
-        if emotion == user_emotion:
-            matching_image = image_path
-            break
+    matching_image = ""
+    if user_emotion in stored_images:
+        matching_image = random.choice(stored_images[user_emotion])
 
     return {
         "user_emotion": user_emotion,
