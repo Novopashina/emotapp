@@ -38,8 +38,8 @@ detector = EmotionDetector()
 
 stored_images = {
     "happy": ["vFG56.png", "happy2.png"],
-    "neutral": ["vFG112.png", "neutral2", "neutral3"],
-    "surprise": ["XMY-074.png", "surprise2"],
+    "neutral": ["vFG112.png", "neutral2.png", "neutral3.png"],
+    "surprise": ["XMY-074.png", "surprise2.png"],
     "sad": ["vFG137.png", "vFG756.png"],
     "angry": ["XMY-136.png", "XMY-014.png"]
 }
