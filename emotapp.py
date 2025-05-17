@@ -33,6 +33,7 @@ class EmotionDetector(pr.Processor):
             box2D.class_name = self.classify(cropped_image)['class_name']
         print("Эмоция на фото:", box2D.class_name)
         return box2D.class_name, self.draw(image, boxes2D)
+    
 
 detector = EmotionDetector()
 
@@ -44,7 +45,7 @@ stored_images = {
     "angry": ["XMY-136.png", "XMY-014.png"]
 }
 
-@app.post("/")
+@app.post("/detect_emotion")
 async def detect_emotion(image: UploadFile = File(...)):
     contents = await image.read()
     np_image = np.frombuffer(contents, np.uint8)
