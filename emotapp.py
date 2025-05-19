@@ -45,7 +45,7 @@ stored_images = {
     "angry": ["XMY-136.png", "XMY-014.png"]
 }
 
-@app.post("/detect_emotion")
+@app.post("/")
 async def detect_emotion(image: UploadFile = File(...)):
     contents = await image.read()
     np_image = np.frombuffer(contents, np.uint8)
