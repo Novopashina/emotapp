@@ -45,6 +45,14 @@ stored_images = {
     "angry": ["XMY-136.png", "XMY-014.png"]
 }
 
+EMOTION_TRANSLATIONS = {
+    "happy": "радость",
+    "neutral": "нейтральное выражение",
+    "surprise": "удивление",
+    "sad": "грусть",
+    "angry": "злость",
+}
+
 @app.post("/")
 async def detect_emotion(image: UploadFile = File(...)):
     contents = await image.read()
@@ -60,11 +68,13 @@ async def detect_emotion(image: UploadFile = File(...)):
     prediction_bgr = cv2.cvtColor(prediction, cv2.COLOR_RGB2BGR)
     cv2.imwrite("output_user.png", prediction_bgr)
 
+    translated_emotion = EMOTION_TRANSLATIONS.get(user_emotion, "Не определено")
+
     matching_image = ""
     if user_emotion in stored_images:
         matching_image = random.choice(stored_images[user_emotion])
 
     return {
-        "user_emotion": user_emotion,
+        "user_emotion": translated_emotion,
         "matching_image": matching_image or ""
     }
